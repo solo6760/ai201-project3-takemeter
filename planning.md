@@ -51,6 +51,18 @@ During annotation, we will resolve boundary conflicts using the following priori
 2.  **The Content Format Rule**: Any post that is fundamentally sharing a media clip (`[Highlight]`), a journalist's tweet, or a standard match score (`[Post Game Thread]`) is labeled `NEWS`, even if the title uses colorful, subjective, or sensationalized language.
 3.  **The Speculation vs. Transaction Rule**: Unconfirmed rumors and fan trade proposals are labeled `HOT_TAKE`. Confirmed transactions, official signings, and reporter announcements of finalised deals are labeled `NEWS`.
 
+### Specific Hard Examples Documented from Annotation:
+
+*   **Example 1**: `"Can someone explain the 'Sign & Trade' rules"`
+    *   *Why it was difficult*: Explaining transaction rules sounds like it could be `NEWS` (it concerns trades) or `ANALYSIS` (it teaches mechanical cap space rules).
+    *   *Decision & Rationale*: We labeled this as `HOT_TAKE` because it represents a community explainer request/question. It does not contain an official transactional update (`NEWS`) or an original, self-contained analytical write-up (`ANALYSIS`).
+*   **Example 2**: `"Adrian Wojnarowski also leaked MVP winners before they were officially announced. Notice the lack of outrage."`
+    *   *Why it was difficult*: Mentioning a premier news insider like Wojnarowski strongly points to `NEWS`, and leaking winners could also be considered updates.
+    *   *Decision & Rationale*: We labeled this as `HOT_TAKE`. The primary purpose of this title is to point out subreddit hypocrisy and spark discussion/opinion on double standards rather than reporting an objective update.
+*   **Example 3**: `"[The Guardian] 15 things we learned from the NBA playoffs and finals"`
+    *   *Why it was difficult*: It is a link to an article from a professional sports media outlet, which could be seen as `NEWS`.
+    *   *Decision & Rationale*: We labeled this as `HOT_TAKE`. Retrospective "lessons learned" or takeaway articles from journalists represent editorial opinion and narrative digests rather than objective transactional news (e.g. trades, scores) or structured statistical research.
+
 ---
 
 ## 4. Data Collection Plan
