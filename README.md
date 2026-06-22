@@ -143,3 +143,6 @@ We utilized AI tools at two distinct stages of this project:
 
 1.  We used Gemini 3.5 Flash to pre-classify our raw dataset of 200 posts to accelerate labeling. Every single pre-labeled prediction was then manually reviewed, audited, and corrected by a human annotator. We tracked this by adding `is_prelabeled` (boolean) and `prelabeled_by` columns to the CSV dataset.
 2. We fed the 14 misclassified examples into Llama 3.3 70B to identify recurring classification failure themes (such as editorial listicles and hypothetical headlines). We manually reviewed and validated these themes against the test set data to write the error analysis report.
+
+## Video Demo
+https://shorturl.at/cwxJg
