@@ -1,8 +1,8 @@
 # r/nba Discourse Quality Classifier
 
-A machine learning system that classifies post titles from the **r/nba** subreddit into distinct categories based on discourse depth and intent: **ANALYSIS** (deep analytical content), **HOT_TAKE** (subjective opinions and narrative debates), and **NEWS** (transactional updates and game highlights). 
+A machine learning system that classifies post titles from the r/nba subreddit into distinct categories based on discourse depth and intent: `ANALYSIS` (deep analytical content), `HOT_TAKE` (subjective opinions and narrative debates), and `NEWS` (transactional updates and game highlights). 
 
-This project benchmarks a **zero-shot baseline model (Llama-3.3-70b-versatile via Groq)** against a custom **fine-tuned Transformer model (DistilBERT)** trained on 200 manually annotated examples.
+This project benchmarks a zero-shot baseline model (Llama-3.3-70b-versatile via Groq) against a custom fine-tuned Transformer model (DistilBERT) trained on 200 manually annotated examples.
 
 ---
 
@@ -105,9 +105,9 @@ We evaluated both models on a locked test set of 30 examples. Below is the side-
 
 ### What the Model Captured vs. What Was Intended
 We intended to separate technical, data-driven analysis from general community chatter. However, the fine-tuned model overfit heavily to **structural patterns** in the text rather than semantic meaning. 
-*   **Overfitting to `ANALYSIS`**: Because the dataset had a high ratio of `ANALYSIS` markers (such as bracketed indicators or long-form structures), the model learned that if a title has complex metadata or multi-word combinations, it is likely `ANALYSIS`. This led to an artificially inflated `ANALYSIS` recall of `1.00`, but a low precision of `0.52`.
-*   **Missing Semantic Intention**: The model completely missed the "intent" of posts. A meta-question asking for trade rule clarifications was categorized as `ANALYSIS` simply because it contained technical keywords like "Sign & Trade".
-*   **Resolving the Issues**: To fix these boundaries, we would need to:
+*   Because the dataset had a high ratio of `ANALYSIS` markers (such as bracketed indicators or long-form structures), the model learned that if a title has complex metadata or multi-word combinations, it is likely `ANALYSIS`. This led to an artificially inflated `ANALYSIS` recall of `1.00`, but a low precision of `0.52`.
+*   The model completely missed the "intent" of posts. A meta-question asking for trade rule clarifications was categorized as `ANALYSIS` simply because it contained technical keywords like "Sign & Trade".
+*   To fix these boundaries, we would need to:
     1.  Train on a larger, more diverse dataset (e.g., 500+ examples instead of 200).
     2.  Include negative examples of titles containing technical words (like "Sign & Trade" or "CBA") that are structured as basic questions.
     3.  Tighter rule definitions to discourage the model from prioritizing single keyphrases over syntax.
@@ -132,8 +132,8 @@ The model correctly classified `[OC] The Most Consistent 3-Point Shooters...` as
 
 ## 6. Spec Reflection
 
-*   **How the Spec Helped**: The requirement to define hard edge cases and priority rules in `planning.md` prior to labeling prevented arbitrary decisions. For instance, the "Content Format Rule" immediately resolved how to classify highly sensationalized highlights (such as Curry's "impossible circus shot") by mapping them to `NEWS` based on format, preventing class confusion during annotation.
-*   **Divergence & Rationale**: The implementation diverged by introducing automated tracking columns (`is_prelabeled`, `prelabeled_by`) into the CSV dataset to log which examples had been pre-labeled by the LLM. This went beyond the basic "text" and "label" spec but was necessary to ensure absolute transparency and auditability in our AI usage disclosure.
+*   The requirement to define hard edge cases and priority rules in `planning.md` prior to labeling prevented arbitrary decisions. For instance, the "Content Format Rule" immediately resolved how to classify highly sensationalized highlights (such as Curry's "impossible circus shot") by mapping them to `NEWS` based on format, preventing class confusion during annotation.
+*  The implementation diverged by introducing automated tracking columns (`is_prelabeled`, `prelabeled_by`) into the CSV dataset to log which examples had been pre-labeled by the LLM. This went beyond the basic "text" and "label" spec but was necessary to ensure absolute transparency and auditability in our AI usage disclosure.
 
 ---
 
@@ -141,5 +141,5 @@ The model correctly classified `[OC] The Most Consistent 3-Point Shooters...` as
 
 We utilized AI tools at two distinct stages of this project:
 
-1.  **Annotation Assistance**: We used **Gemini 3.5 Flash** to pre-classify our raw dataset of 200 posts to accelerate labeling. Every single pre-labeled prediction was then manually reviewed, audited, and corrected by a human annotator. We tracked this by adding `is_prelabeled` (boolean) and `prelabeled_by` columns to the CSV dataset.
-2.  **Failure Analysis**: We fed the 14 misclassified examples into **Llama 3.3 70B** to identify recurring classification failure themes (such as editorial listicles and hypothetical headlines). We manually reviewed and validated these themes against the test set data to write the error analysis report.
+1.  We used Gemini 3.5 Flash to pre-classify our raw dataset of 200 posts to accelerate labeling. Every single pre-labeled prediction was then manually reviewed, audited, and corrected by a human annotator. We tracked this by adding `is_prelabeled` (boolean) and `prelabeled_by` columns to the CSV dataset.
+2. We fed the 14 misclassified examples into Llama 3.3 70B to identify recurring classification failure themes (such as editorial listicles and hypothetical headlines). We manually reviewed and validated these themes against the test set data to write the error analysis report.
